@@ -32,9 +32,9 @@ export default function Charts() {
       .catch(err => console.error("Error en jugadores_anios", err));
 
     // Cargar datos de jugadores por mes
-    axios.get(`${BASE_URL}/api/jugadores_mes`)
-      .then(res => setJugadoresMesData(res.data))
-      .catch(err => console.error("Error en jugadores_mes", err));
+    // axios.get(`${BASE_URL}/api/jugadores_mes`)
+    // .then(res => setJugadoresMesData(res.data))
+    //   .catch(err => console.error("Error en jugadores_mes", err));
 
     // Cargar datos de top promedio
     axios.get(`${BASE_URL}/api/top_promedio`)
@@ -54,7 +54,7 @@ export default function Charts() {
         <div className="bg-white rounded-lg shadow-md p-6">
           {gainData.length ? (
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={gainData}>
+              <BarChart data={Array.isArray(gainData) ? gainData : []}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis />
@@ -91,7 +91,7 @@ export default function Charts() {
       </section>
   
       {/* Gráfico de Jugadores por Mes */}
-      <section className="max-w-4xl mx-auto text-center space-y-6">
+      {/* <section className="max-w-4xl mx-auto text-center space-y-6">
         <h3 className="text-2xl font-semibold text-gray-700">Jugadores por Mes</h3>
         <div className="bg-white rounded-lg shadow-md p-6">
           {jugadoresMesData.length ? (
@@ -118,7 +118,7 @@ export default function Charts() {
             <p className="text-gray-500">Cargando datos de Jugadores por Mes...</p>
           )}
         </div>
-      </section>
+      </section> */}
   
       {/* Gráfico de Top Promedio */}
       <section className="max-w-4xl mx-auto text-center space-y-6">
@@ -126,7 +126,7 @@ export default function Charts() {
         <div className="bg-white rounded-lg shadow-md p-6">
           {topPromedioData.length ? (
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={topPromedioData}>
+              <BarChart data={Array.isArray(topPromedioData) ? topPromedioData : []}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" tick={{ fontSize: 10 }} interval={0} angle={-45} textAnchor="end" height={60} />
                 <YAxis />
