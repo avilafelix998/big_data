@@ -34,6 +34,10 @@ def get_top_promedio():
     data = df[['AvgPlayers','Game_Name']].to_dict(orient='records')
     return jsonify(data)
 
+@app.route('/')
+def home():
+    return 'La API está corriendo correctamente '
+
 if __name__ == '__main__':  # corregido también
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
