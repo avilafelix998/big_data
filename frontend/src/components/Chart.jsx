@@ -23,22 +23,22 @@ export default function Charts() {
     const BASE_URL = 'https://big-data-n4mu.onrender.com';
 
     // Cargar datos de gain
-    axios.get(`${BASE_URL}/api/data/gain`)
+    axios.get(`${BASE_URL}/api/gain`)
       .then(res => setGainData(res.data))
       .catch(err => console.error("Error en gain", err));
 
     // Cargar datos de jugadores por años
-    axios.get(`${BASE_URL}/api/data/jugadores_anios`)
+    axios.get(`${BASE_URL}/api/jugadores_anios`)
       .then(res => setJugadoresAniosData(res.data))
       .catch(err => console.error("Error en jugadores_anios", err));
 
     // Cargar datos de jugadores por mes
-    axios.get(`${BASE_URL}/api/data/jugadores_mes`)
+    axios.get(`${BASE_URL}/api/jugadores_mes`)
       .then(res => setJugadoresMesData(res.data))
       .catch(err => console.error("Error en jugadores_mes", err));
 
     // Cargar datos de top promedio
-    axios.get(`${BASE_URL}/api/data/top_promedio`)
+    axios.get(`${BASE_URL}/api/top_promedio`)
       .then(res => setTopPromedioData(res.data))
       .catch(err => console.error("Error en top_promedio", err));
   }, []);
