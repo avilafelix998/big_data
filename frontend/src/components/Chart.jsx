@@ -12,7 +12,6 @@ export default function Charts() {
   const [jugadoresAniosData, setJugadoresAniosData] = useState([]);
   const [jugadoresMesData, setJugadoresMesData] = useState([]);
   const [topPromedioData, setTopPromedioData] = useState([]);
-
   const COLORS = [
     '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
     '#FF9F40', '#00C49F', '#FFBB28', '#FF8042', '#A28EFF',
@@ -39,7 +38,9 @@ export default function Charts() {
 
     // Cargar datos de top promedio
     axios.get(`${BASE_URL}/api/top_promedio`)
-      .then(res => setTopPromedioData(res.data))
+    .then(res => {
+      setTopPromedioData(res.data);
+    })
       .catch(err => console.error("Error en top_promedio", err));
   }, []);
 
