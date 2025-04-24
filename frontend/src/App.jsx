@@ -3,6 +3,7 @@ import './App.css'
 import Header from './components/Header';
 import Hero from './components/Hero';
 import FeaturedGames from './components/FeaturedGames';
+import Charts from './components/Chart';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Header />
       <Hero />
       <FeaturedGames />
+      <Charts />
       
     </div>
   );
