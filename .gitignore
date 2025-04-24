@@ -1,5 +1,5 @@
 # Ignorar entornos virtuales
-/backend/venv/
+# /backend/venv/
 /backend/env/
 /backend/*.env
 
