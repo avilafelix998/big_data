@@ -20,7 +20,7 @@ export default function Charts() {
   ];
 
   useEffect(() => {
-    const BASE_URL = 'https://data-visualization-xxvc.onrender.com';
+    const BASE_URL = 'https://big-data-n4mu.onrender.com';
 
     // Cargar datos de gain
     axios.get(`${BASE_URL}/api/data/gain`)
