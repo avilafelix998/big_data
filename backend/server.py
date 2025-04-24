@@ -34,6 +34,6 @@ def get_peak_players():
     data = df[['AvgPlayers','Game_Name']].to_dict(orient='records')
     return jsonify(data)
 
-if name == 'main':  # corregido también
+if __name__ == '_main_':  # corregido también
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
