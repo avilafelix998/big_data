@@ -7,21 +7,33 @@ app = Flask(__name__)  # corregido "__name__"
 CORS(app)
 
 # Ruta para jugadores promedio por mes
-@app.route('/api/jugadores/promedio', methods=['GET'])
+@app.route('/api/gain', methods=['GET'])
 def get_avg_players():
-    df = pd.read_csv('./data/jugadores_mes.csv')
-    # Asegurate que las columnas sean: 'date', 'avgPlayers'
-    data = df[['date', 'avgPlayers']].to_dict(orient='records')
+    df = pd.read_csv('./data/gain.csv')
+    data = df[['Gain','Date','Game_Name']].to_dict(orient='records')
     return jsonify(data)
 
-# Ruta para pico de jugadores por mes
-@app.route('/api/jugadores/pico', methods=['GET'])
+@app.route('/api/jugadores_anios', methods=['GET'])
+def get_peak_players():
+    df = pd.read_csv('./data/jugadores_anios.csv')
+    # Asegurate que las columnas sean: 'date', 'peakPlayers'
+    data = df[['AvgPlayers','Date','Game_Name']].to_dict(orient='records')
+    return jsonify(data)
+
+@app.route('/api/jugadores_mes', methods=['GET'])
 def get_peak_players():
     df = pd.read_csv('./data/jugadores_mes.csv')
     # Asegurate que las columnas sean: 'date', 'peakPlayers'
-    data = df[['date', 'peakPlayers']].to_dict(orient='records')
+    data = df[['PeakPlayers','Date','Game_Name']].to_dict(orient='records')
     return jsonify(data)
 
-if __name__ == '__main__':  # corregido también
+@app.route('/api/jugadores_anios', methods=['GET'])
+def get_peak_players():
+    df = pd.read_csv('./data/top_promedio.csv')
+    # Asegurate que las columnas sean: 'date', 'peakPlayers'
+    data = df[['AvgPlayers','Game_Name']].to_dict(orient='records')
+    return jsonify(data)
+
+if name == 'main':  # corregido también
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
