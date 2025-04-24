@@ -17,7 +17,7 @@ def get_avg_players():
 def get_peak_players_anios():
     df = pd.read_csv('./data/jugadores_anios.csv')
     # Asegurate que las columnas sean: 'date', 'peakPlayers'
-    data = df[['AvgPlayers','Date','Game_Name']].to_dict(orient='records')
+    data = df[['Avg_players','Date','Game_Name']].to_dict(orient='records')
     return jsonify(data)
 
 @app.route('/api/jugadores_mes', methods=['GET'])
@@ -31,7 +31,7 @@ def get_peak_players_mes():
 def get_top_promedio():
     df = pd.read_csv('./data/top_promedio.csv')
     # Asegurate que las columnas sean: 'date', 'peakPlayers'
-    data = df[['AvgPlayers','Game_Name']].to_dict(orient='records')
+    data = df[['Avg_players','Game_Name']].to_dict(orient='records')
     return jsonify(data)
 
 @app.route('/')
