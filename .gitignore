@@ -1,0 +1,17 @@
+# Ignorar entornos virtuales
+/backend/venv/
+/backend/env/
+/backend/*.env
+
+# Archivos de configuración de Python
+/backend/__pycache__/
+/backend/*.py[cod]
+/backend/*.ipynb_checkpoints/
+
+
+# Archivos de logs
+/backend/*.log
+
+# Configuración de IDEs
+.vscode/
+.idea/
