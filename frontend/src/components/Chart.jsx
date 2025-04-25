@@ -32,9 +32,9 @@ export default function Charts() {
       .catch(err => console.error("Error en jugadores_anios", err));
 
     // Cargar datos de jugadores por mes
-    // axios.get(`${BASE_URL}/api/jugadores_mes`)
-    // .then(res => setJugadoresMesData(res.data))
-    //   .catch(err => console.error("Error en jugadores_mes", err));
+    axios.get(`${BASE_URL}/api/jugadores_mes`)
+    .then(res => setJugadoresMesData(res.data))
+      .catch(err => console.error("Error en jugadores_mes", err));
 
     // Cargar datos de top promedio
     axios.get(`${BASE_URL}/api/top_promedio`)
