@@ -91,7 +91,7 @@ export default function Charts() {
       </section>
   
       {/* Gráfico de Jugadores por Mes */}
-      {/* <section className="max-w-4xl mx-auto text-center space-y-6">
+      {<section className="max-w-4xl mx-auto text-center space-y-6">
         <h3 className="text-2xl font-semibold text-gray-700">Jugadores por Mes</h3>
         <div className="bg-white rounded-lg shadow-md p-6">
           {jugadoresMesData.length ? (
@@ -118,7 +118,7 @@ export default function Charts() {
             <p className="text-gray-500">Cargando datos de Jugadores por Mes...</p>
           )}
         </div>
-      </section> */}
+      </section>}
   
       {/* Gráfico de Top Promedio */}
       <section className="max-w-4xl mx-auto text-center space-y-6">
