@@ -41,7 +41,17 @@ export default function Charts() {
       })
       .catch(() => setGainData([]));
 
-     // Jugadores por Mes
+    // 2) Jugadores por años
+    axios.get(`${BASE}/api/jugadores_anios`)
+      .then(res => {
+        const arr = Array.isArray(res.data)? res.data : [];
+        setJugadoresAniosData(
+          arr.map(item => ({ name: item.Date, value: item.Avg_players }))
+        );
+      })
+      .catch(() => setJugadoresAniosData([]));
+      
+       // Jugadores por Mes
   axios.get(`${BASE}/api/jugadores_mes`)
   .then(res => {
     const tidy = res.data.map(item => ({
@@ -98,6 +108,7 @@ axios.get(`${BASE}/api/top_promedio`)
   })
   .catch(err => console.error('Error en resultado', err));
 }, []);
+
   return (
     <div className="pt-10 pb-16 px-4 space-y-16 bg-gray-50">
       <h2 className="text-3xl font-bold text-center text-gray-800">Gráficos de Datos</h2>
