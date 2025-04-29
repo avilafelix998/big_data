@@ -149,59 +149,54 @@ axios.get(`${BASE}/api/jugadores_mes`)
         </div>
       </section>
 
-      {/* Jugadores por Mes (Porcentaje por Juego) */}
-      <section className="max-w-4xl mx-auto space-y-4">
-        <h3 className="text-2xl font-semibold text-gray-700">Jugadores por Mes (Porcentaje)</h3>
-        <div className="bg-white rounded-lg shadow-md p-6">
-          {jugadoresMesData.length ? (
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={jugadoresMesData}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={100}
-                  label={({ name, percent }) => `${name}: ${(percent*100).toFixed(0)}%`}
-                >
-                  {jugadoresMesData.map((_, i) => (
-                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip formatter={val => `${val}%`} />
-              </PieChart>
-            </ResponsiveContainer>
-          ) : (
-            <p className="text-gray-500">Cargando Jugadores por Mes…</p>
-          )}
-        </div>
-      </section>
+      {/* Jugadores por Mes (Bar Chart) */}
+<section className="max-w-4xl mx-auto space-y-4">
+  <h3 className="text-2xl font-semibold text-gray-700">Jugadores por Mes</h3>
+  <div className="bg-white rounded-lg shadow-md p-6">
+    {jugadoresMesData.length ? (
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={jugadoresMesData}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+          <YAxis />
+          <Tooltip formatter={(value) => `${value.toFixed(2)}%`} />
+          <Bar dataKey="value" fill="#82ca9d" />
+        </BarChart>
+      </ResponsiveContainer>
+    ) : (
+      <p className="text-gray-500">Cargando Jugadores por Mes…</p>
+    )}
+  </div>
+</section>
 
-      {/* Top Promedio */}
-      <section className="max-w-4xl mx-auto space-y-4">
-        <h3 className="text-2xl font-semibold text-gray-700">Top Promedio</h3>
-        <div className="bg-white rounded-lg shadow-md p-6">
-          {topPromedioData.length ? (
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={topPromedioData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" tick={{ fontSize:10 }} interval={0} angle={-45} textAnchor="end" height={60} />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="value">
-                  {topPromedioData.map((_, i) => (
-                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          ) : (
-            <p className="text-gray-500">Cargando Top Promedio…</p>
-          )}
-        </div>
-      </section>
+{/* Top Promedio (Pie Chart) */}
+<section className="max-w-4xl mx-auto space-y-4">
+  <h3 className="text-2xl font-semibold text-gray-700">Top Promedio</h3>
+  <div className="bg-white rounded-lg shadow-md p-6">
+    {topPromedioData.length ? (
+      <ResponsiveContainer width="100%" height={300}>
+        <PieChart>
+          <Pie
+            data={topPromedioData}
+            dataKey="value"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            outerRadius={100}
+            label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+          >
+            {topPromedioData.map((_, i) => (
+              <Cell key={i} fill={COLORS[i % COLORS.length]} />
+            ))}
+          </Pie>
+          <Tooltip formatter={(value) => `${value.toFixed(2)}%`} />
+        </PieChart>
+      </ResponsiveContainer>
+    ) : (
+      <p className="text-gray-500">Cargando Top Promedio…</p>
+    )}
+  </div>
+</section>
     </div>
   );
 }
