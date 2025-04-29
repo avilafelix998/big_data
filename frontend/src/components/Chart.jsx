@@ -41,74 +41,63 @@ export default function Charts() {
       })
       .catch(() => setGainData([]));
 
-    // 2) Jugadores por años
-    axios.get(`${BASE}/api/jugadores_anios`)
-      .then(res => {
-        const arr = Array.isArray(res.data)? res.data : [];
-        setJugadoresAniosData(
-          arr.map(item => ({ name: item.Date, value: item.Avg_players }))
-        );
-      })
-      .catch(() => setJugadoresAniosData([]));
-      
-        // Jugadores por Mes
-        axios.get(`${BASE}/api/jugadores_mes`)
-          .then(res => {
-            const tidy = res.data.map(item => ({
-              month: item.Date.slice(0, 7), // Formatear la fecha como 'YYYY-MM'
-              value: item.Peak_Players // Usar el campo correcto para el valor
-            }));
-      
-            // Agrupar por mes y sumar los valores
-            const jugadoresPorMes = tidy.reduce((acc, { month, value }) => {
-              if (!acc[month]) {
-                acc[month] = 0;
-              }
-              acc[month] += value;
-              return acc;
-            }, {});
-      
-            // Convertir el objeto en un array para el gráfico
-            const dataParaGrafico = Object.entries(jugadoresPorMes).map(([month, value]) => ({
-              month,
-              value
-            }));
-      
-            setJugadoresMesData(dataParaGrafico);
-          })
-          .catch(err => console.error('Error en jugadores_mes', err));
-      
-        // Top Promedio
-        axios.get(`${BASE}/api/resultado`)
-          .then(res => {
-            const arr = Array.isArray(res.data) ? res.data : [];
-            const tidy = arr
-              .reduce((acc, item) => {
-                // Agrupar por juego y calcular el promedio de jugadores
-                if (!acc[item.Game_Name]) {
-                  acc[item.Game_Name] = { total: 0, count: 0 };
-                }
-                acc[item.Game_Name].total += item.Avg_players;
-                acc[item.Game_Name].count += 1;
-                return acc;
-              }, {});
-      
-            // Calcular el promedio y convertir en un array
-            const promedioPorJuego = Object.entries(tidy).map(([name, { total, count }]) => ({
-              name,
-              value: total / count
-            }));
-      
-            // Ordenar por promedio y tomar los 10 primeros
-            const top10 = promedioPorJuego
-              .sort((a, b) => b.value - a.value)
-              .slice(0, 10);
-      
-            setTopPromedioData(top10);
-          })
-          .catch(err => console.error('Error en resultado', err));
-      }, []);
+     // Jugadores por Mes
+  axios.get(`${BASE}/api/jugadores_mes`)
+  .then(res => {
+    const tidy = res.data.map(item => ({
+      month: item.Date.slice(0, 7), // Formatear la fecha como 'YYYY-MM'
+      value: item.Peak_Players // Usar el campo correcto para el valor
+    }));
 
+    // Agrupar por mes y sumar los valores
+    const jugadoresPorMes = tidy.reduce((acc, { month, value }) => {
+      if (!acc[month]) {
+        acc[month] = 0;
+      }
+      acc[month] += value;
+      return acc;
+    }, {});
+
+    // Convertir el objeto en un array para el gráfico
+    const dataParaGrafico = Object.entries(jugadoresPorMes).map(([month, value]) => ({
+      month,
+      value
+    }));
+
+    setJugadoresMesData(dataParaGrafico);
+  })
+  .catch(err => console.error('Error en jugadores_mes', err));
+
+// Top Promedio
+axios.get(`${BASE}/api/top_promedio`)
+  .then(res => {
+    const arr = Array.isArray(res.data) ? res.data : [];
+    const tidy = arr
+      .reduce((acc, item) => {
+        // Agrupar por juego y calcular el promedio de jugadores
+        if (!acc[item.Game_Name]) {
+          acc[item.Game_Name] = { total: 0, count: 0 };
+        }
+        acc[item.Game_Name].total += item.Avg_players;
+        acc[item.Game_Name].count += 1;
+        return acc;
+      }, {});
+
+    // Calcular el promedio y convertir en un array
+    const promedioPorJuego = Object.entries(tidy).map(([name, { total, count }]) => ({
+      name,
+      value: total / count
+    }));
+
+    // Ordenar por promedio y tomar los 10 primeros
+    const top10 = promedioPorJuego
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 10);
+
+    setTopPromedioData(top10);
+  })
+  .catch(err => console.error('Error en resultado', err));
+}, []);
   return (
     <div className="pt-10 pb-16 px-4 space-y-16 bg-gray-50">
       <h2 className="text-3xl font-bold text-center text-gray-800">Gráficos de Datos</h2>
