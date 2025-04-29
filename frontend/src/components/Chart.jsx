@@ -51,46 +51,32 @@ export default function Charts() {
       })
       .catch(() => setJugadoresAniosData([]));
 
-      // 3) JUGADORES POR MES
-axios.get(`${BASE}/api/jugadores_mes`)
-.then(res => {
-  // Agrupar por mes y juego
-  const tidy = res.data.map(item => ({
-    month: item.Date,
-    game: item.Game_Name, // Asegúrate de que 'Game_Name' sea el campo adecuado
-    value: item.Peak_Players
-  }));
-  console.log(tidy);
-  
+ // 2) Jugadores por mes
+      axios.get(`${BASE}/api/jugadores_mes`)
+  .then(res => {
+    const tidy = res.data.map(item => ({
+      month: item.Date.slice(0, 7), // Formatear la fecha como 'YYYY-MM'
+      value: item.Peak_Players // Usar el campo correcto para el valor
+    }));
 
-  // Calcular el total de jugadores por mes
-  const totalJugadoresPorMes = tidy.reduce((acc, { month, value }) => {
-    acc[month] = (acc[month] || 0) + value;
-    return acc;
-  }, {});
+    // Agrupar por mes
+    const jugadoresPorMes = tidy.reduce((acc, { month, value }) => {
+      if (!acc[month]) {
+        acc[month] = 0;
+      }
+      acc[month] += value;
+      return acc;
+    }, {});
 
-  // Calcular los porcentajes por juego y mes
-  const tidyConPorcentajes = tidy.map(item => {
-    const total = totalJugadoresPorMes[item.month] || 0;
-    const porcentaje = total > 0 ? (item.value / total) * 100 : 0;
-    return { ...item, porcentaje };
-  });
+    // Convertir el objeto en un array para el gráfico
+    const dataParaGrafico = Object.entries(jugadoresPorMes).map(([month, value]) => ({
+      month,
+      value
+    }));
 
-  // Agrupar por mes y juego
-  const jugadoresPorMes = tidyConPorcentajes.reduce((acc, { month, game, porcentaje }) => {
-    if (!acc[month]) {
-      acc[month] = [];
-    }
-    acc[month].push({ game, value: porcentaje });
-    return acc;
-  }, {});
-
-  // Tomar el primer mes para mostrar (puedes hacer esto dinámico si lo necesitas)
-  const mesSeleccionado = Object.keys(jugadoresPorMes)[0];
-  setJugadoresMesData(jugadoresPorMes[mesSeleccionado]);
-})
-.catch(err => console.error('Error en jugadores_mes', err));
-
+    setJugadoresMesData(dataParaGrafico);
+  })
+  .catch(err => console.error('Error en jugadores_mes', err));
 
     // 4) Top promedio
     axios.get(`${BASE}/api/top_promedio`)
