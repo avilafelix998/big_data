@@ -51,43 +51,49 @@ export default function Charts() {
       })
       .catch(() => setJugadoresAniosData([]));
 
- // 2) Jugadores por mes
-      axios.get(`${BASE}/api/jugadores_mes`)
-  .then(res => {
-    const tidy = res.data.map(item => ({
-      month: item.Date.slice(0, 7), // Formatear la fecha como 'YYYY-MM'
-      value: item.Peak_Players // Usar el campo correcto para el valor
-    }));
+  // Jugadores por Mes
+  axios.get(`${BASE}/api/jugadores_mes`)
+    .then(res => {
+      const tidy = res.data.map(item => ({
+        month: item.Date.slice(0, 7), // Formatear la fecha como 'YYYY-MM'
+        value: item.Peak_Players // Usar el campo correcto para el valor
+      }));
 
-    // Agrupar por mes
-    const jugadoresPorMes = tidy.reduce((acc, { month, value }) => {
-      if (!acc[month]) {
-        acc[month] = 0;
-      }
-      acc[month] += value;
-      return acc;
-    }, {});
+      // Agrupar por mes y sumar los valores
+      const jugadoresPorMes = tidy.reduce((acc, { month, value }) => {
+        if (!acc[month]) {
+          acc[month] = 0;
+        }
+        acc[month] += value;
+        return acc;
+      }, {});
 
-    // Convertir el objeto en un array para el gráfico
-    const dataParaGrafico = Object.entries(jugadoresPorMes).map(([month, value]) => ({
-      month,
-      value
-    }));
+      // Convertir el objeto en un array para el gráfico
+      const dataParaGrafico = Object.entries(jugadoresPorMes).map(([month, value]) => ({
+        month,
+        value
+      }));
 
-    setJugadoresMesData(dataParaGrafico);
-  })
-  .catch(err => console.error('Error en jugadores_mes', err));
+      setJugadoresMesData(dataParaGrafico);
+    })
+    .catch(err => console.error('Error en jugadores_mes', err));
 
-    // 4) Top promedio
-    axios.get(`${BASE}/api/top_promedio`)
-      .then(res => {
-        const arr = Array.isArray(res.data)? res.data : [];
-        setTopPromedioData(
-          arr.map(item => ({ name: item.Game_Name, value: item.Avg_players }))
-        );
-      })
-      .catch(() => setTopPromedioData([]));
-  }, []);
+  // Top Promedio
+  axios.get(`${BASE}/api/top_promedio`)
+    .then(res => {
+      const arr = Array.isArray(res.data) ? res.data : [];
+      const tidy = arr
+        .map(item => ({
+          name: item.Game_Name, // Nombre del juego
+          value: item.Avg_players // Promedio de jugadores
+        }))
+        .sort((a, b) => b.value - a.value) // Ordenar por promedio de jugadores (descendente)
+        .slice(0, 10); // Tomar solo los 10 primeros
+
+      setTopPromedioData(tidy);
+    })
+    .catch(err => console.error('Error en top_promedio', err));
+}, []);
 
   return (
     <div className="pt-10 pb-16 px-4 space-y-16 bg-gray-50">
